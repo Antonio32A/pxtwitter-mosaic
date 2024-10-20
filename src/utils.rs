@@ -126,11 +126,12 @@ pub async fn fetch_image(client: &reqwest::Client, id: &str) -> Option<RgbImage>
     tracing::trace!("starting to download image");
 
     let start = Instant::now();
+    let converted_id = id.replace("_", "/");
 
     let mut resp = client
         .get(format!(
-            "https://pbs.twimg.com/media/{}?format=jpg&name=large",
-            id
+            "https://cdn.bsky.app/img/feed_fullsize/plain/{}@jpeg",
+            converted_id
         ))
         .headers(FETCH_HEADERS.clone())
         .send()
